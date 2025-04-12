@@ -5,7 +5,7 @@ exports.addExpense = async(req,res) => {
     const userId = req.user.id;
 
     try{
-        const {icon, category, amount, date} = req.body;
+        const {icon, category, description, amount, date} = req.body;
 
         if(!category || !amount || !date){
             return res.status(400).json({message:"All fields are required!"});
@@ -15,6 +15,7 @@ exports.addExpense = async(req,res) => {
             userId,
             icon,
             category,
+            description,
             amount,
             date: new Date(date)
         });
@@ -53,6 +54,7 @@ exports.downloadExpenseExcel = async(req,res) => {
 
         const data = expense.map((item) => ({
             Category: item.category,
+            description: item.description,
             Amount: item.amount,
             Date: item.date
         }));
