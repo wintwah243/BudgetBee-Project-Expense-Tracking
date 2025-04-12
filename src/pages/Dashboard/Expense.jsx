@@ -41,7 +41,7 @@ const Expense = () => {
 
 //handle add expense
 const handleAddExpense = async (expense) => {
-  const {category, amount, date, icon} = expense;
+  const {category, description, amount, date, icon} = expense;
 
   if(!category.trim()){
     toast.error("Category is required!");
@@ -61,6 +61,7 @@ const handleAddExpense = async (expense) => {
   try{
       await axiosInstance.post(API_PATHS.EXPENSE.ADD_EXPENSE, {
         category,
+        description,
         amount,
         date,
         icon
