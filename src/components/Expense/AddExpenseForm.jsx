@@ -6,6 +6,7 @@ const AddExpenseForm = ({onAddExpense}) => {
 
     const [expense, setExpense] = useState({
         category:"",
+        description:"",
         amount:"",
         date:"",
         icon:""
@@ -25,6 +26,14 @@ const AddExpenseForm = ({onAddExpense}) => {
             onChange={({target}) => handleChange("category", target.value)}
             label="Category"
             placeholder="Rent, Groceries, etc"
+            type="text"
+        />
+
+        <Input 
+            value={expense.description}
+            onChange={({target}) => handleChange("description", target.value)}
+            label="description"
+            placeholder=""
             type="text"
         />
 
