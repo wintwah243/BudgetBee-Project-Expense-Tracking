@@ -11,6 +11,7 @@ const TransactionInfoCard = ({
     icon,
     date,
     amount,
+    description,
     type,
     hideDeleteBtn,
     onDelete
@@ -32,6 +33,7 @@ const TransactionInfoCard = ({
         <div className='flex-1 flex items-center justify-between'>
             <div>
                 <p className='text-sm text-gray-700 font-medium'>{title}</p>
+                <p className='text-xs text-yellow-400 mt-1'>{description}</p>
                 <p className='text-xs text-gray-400 mt-1'>{date}</p>
             </div>
 
