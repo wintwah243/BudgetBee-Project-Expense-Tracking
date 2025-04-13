@@ -5,6 +5,7 @@ import {
     LuTrendingDown,
     LuTrash2
 } from 'react-icons/lu'
+import {FiEdit} from 'react-icons/fi'
 
 const TransactionInfoCard = ({
     title,
@@ -14,7 +15,8 @@ const TransactionInfoCard = ({
     description,
     type,
     hideDeleteBtn,
-    onDelete
+    onDelete,
+    onEdit
 }) => {
     const getAmountStyles = () => 
         type === "income" ? "bg-green-50 text-green-500" : "bg-red-50 text-red-500"
@@ -38,6 +40,14 @@ const TransactionInfoCard = ({
             </div>
 
             <div className='flex items-center gap-2'>
+                {onEdit && (
+                    <button
+                    className='text-gray-400 hover:text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer'
+                    onClick={onEdit}>
+                        <FiEdit size={18}/>
+                    </button>
+                )}
+
                 {!hideDeleteBtn && (
                     <button
                     className='text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer'
