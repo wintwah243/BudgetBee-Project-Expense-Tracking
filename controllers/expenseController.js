@@ -67,3 +67,37 @@ exports.downloadExpenseExcel = async(req,res) => {
         res.status(500).json({message:"Server error"});
     }
 }
+
+exports.updateExpense = async (req, res) => {
+    const userId = req.user.id;
+    const expenseId = req.params.id;
+
+    try {
+        const { icon, category, description, amount, date } = req.body;
+
+        if (!category || !amount || !date) {
+            return res.status(400).json({ message: "All fields are required!" });
+        }
+
+        const expense = await Expense.findOne({ _id: expenseId, userId });
+
+        if (!expense) {
+            return res.status(404).json({ message: "Expense not found or not authorized" });
+        }
+
+        // Update fields
+        expense.icon = icon;
+        expense.category = category;
+        expense.description = description;
+        expense.amount = amount;
+        expense.date = new Date(date);
+
+        await expense.save();
+
+        res.status(200).json({ message: "Expense updated successfully!", expense });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
