@@ -10,21 +10,28 @@ const UserSchema = new mongoose.Schema({
         type: String, required: true, unique: true
     },
     password:{
-        type: String, required: true
+        type: String,
+        required: function () {
+            return !this.googleId; 
+        },
     },
     profileImageUrl: {
         type: String, default: null
+    },
+    verifytoken:{
+        type: String,
     },
 },
 {timestamps: true}
 );
 
-UserSchema.pre("save", async function(next) {
-    if(!this.isModified("password")) return next();
-    this.password = await bcrypt.hash(this.password, 10);
+UserSchema.pre("save", async function (next) {
+    if (!this.isModified("password") || !this.password) return next();
+    const hashedPassword = await bcrypt.hash(this.password, 10);
+    console.log("Hashed Password: ", hashedPassword); 
+    this.password = hashedPassword;
     next();
 });
-
 UserSchema.methods.comparePassword = async function(candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
