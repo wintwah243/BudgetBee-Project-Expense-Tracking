@@ -19,7 +19,7 @@ const PasswordReset = () => {
     }
   
     try {
-      const res = await axiosInstance.post("/api/v1/auth/sendpasswordlink", { email }); // Use relative path if axiosInstance has baseURL
+      const res = await axiosInstance.post("/api/v1/auth/sendpasswordlink", { email }); 
   
       if (res.status === 201) {
         setEmail("");
