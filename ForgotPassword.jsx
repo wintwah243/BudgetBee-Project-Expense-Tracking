@@ -50,7 +50,7 @@ const ForgotPassword = () => {
         setPassword("");
         setMessage(true);
     }else{
-        toast.error("! Token expired generate new link")
+        toast.error("! Token expired! Pls try again.")
     }
 
   }
