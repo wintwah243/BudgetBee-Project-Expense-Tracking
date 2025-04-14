@@ -70,9 +70,15 @@ const Login = () => {
                 placeholder="Min 8 characters"
                 type="password"
              />
+             <p className='text-[13px] text-slate-800 mt-3'>
+                Forgot Password?{" "}
+                <Link className='font-medium text-yellow-500 underline' to="/password-reset">Reset password</Link>
+             </p>
 
              {error && <p className='text-red-500 text-xs pb-2.5'>{error}</p>}
+            
              <button type='submit' className='btn-primary'>Login</button>
+            
              <p className='text-[13px] text-slate-800 mt-3'>
                 Don't have an account?{" "}
                 <Link className='font-medium text-yellow-500 underline' to="/signup">Signup</Link>
