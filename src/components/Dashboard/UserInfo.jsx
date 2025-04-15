@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { FiEdit, FiArrowLeft } from 'react-icons/fi';
 import CharAvatar from '../cards/CharAvatar';
-import AuthLayout from '../layouts/AuthLayout';
 import { API_PATHS } from '../../utils/apiPaths';
 import axiosInstance from '../../utils/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import DashboardLayout from '../layouts/DashboardLayout';
 
 const UserInfo = () => {
   const [user, setUser] = useState(null);
@@ -101,26 +101,26 @@ const UserInfo = () => {
 
   if (loading) {
     return (
-      <AuthLayout>
+      <DashboardLayout>
         <div className="min-h-screen flex justify-center items-center">
           <p>Loading...</p>
         </div>
-      </AuthLayout>
+       </DashboardLayout>
     );
   }
 
   if (error) {
     return (
-      <AuthLayout>
+      <DashboardLayout>
         <div className="min-h-screen flex justify-center items-center">
           <p>{error}</p>
         </div>
-      </AuthLayout>
+      </DashboardLayout>
     );
   }
 
   return (
-    <AuthLayout>
+     <DashboardLayout>
       <div className="max-w-3xl w-full mx-auto mt-10 mb-20 px-4">
         
         <button
@@ -238,7 +238,7 @@ const UserInfo = () => {
         </div>
 
       </div>
-    </AuthLayout>
+     </DashboardLayout>
   );
 
 
