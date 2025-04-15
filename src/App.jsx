@@ -5,11 +5,12 @@ import {
   Route,
   Navigate,
 } from "react-router-dom"
+import Welcome from './pages/Dashboard/Welcome';
 import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
-import Home from "./pages/Dashboard/Home"
-import Income from "./pages/Dashboard/Income"
-import Expense from "./pages/Dashboard/Expense"
+import Home from "./pages/Dashboard/Home";
+import Income from "./pages/Dashboard/Income";
+import Expense from "./pages/Dashboard/Expense";
 import UserProvider from './context/userContext';
 import PasswordReset from './components/PasswordReset';
 import ForgotPassword from './components/ForgotPassword';
@@ -22,6 +23,7 @@ const App = () => {
       <Router>
         <Routes>
           <Route path='/' element={<Root />} />
+          <Route path='/welcomepage' exact element={<Welcome />} />
           <Route path='/login' exact element={<Login />} />
           <Route path='/signUp' exact element={<SignUp />} />
           <Route path='/dashboard' exact element={<Home />} />
@@ -51,10 +53,10 @@ const Root = () => {
   //check if token exists in localStorage
   const isAuthenticated = !!localStorage.getItem("token");
 
-  //Redirect to dashboard if authenticated, otherwise to login
+  //Redirect to dashboard if authenticated, otherwise to welcome page
   return isAuthenticated ? (
     <Navigate to="/dashboard" />
   ) : (
-    <Navigate to="/login" />
+    <Navigate to="/welcomepage" />
   )
 }
