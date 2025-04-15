@@ -3,17 +3,16 @@ const {protect} = require("../middleware/authMiddleware");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
-
-const keysecret = process.env.JWT_SECRET;
-
 const {
     registerUser,
     loginUser,
     getUserInfo
 } = require("../controllers/authController");
 const upload = require("../middleware/uploadMiddleware");
+const User = require("../models/User");
 
 const router = express.Router();
+const keysecret = process.env.JWT_SECRET;
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
@@ -143,6 +142,48 @@ router.post("/:id/:token", async (req, res) => {
     } catch (error) {
       console.error("Error in password reset route:", error.message);
       res.status(401).json({ status: 401, message: "Invalid or expired token" });
+    }
+});
+
+// Update user profile info (Name)
+router.put("/update-profile", protect, async (req, res) => {
+    const { name } = req.body;
+  
+    if (!name) {
+      return res.status(400).json({ message: "Name is required" });
+    }
+  
+    try {
+      const user = await User.findById(req.user.id);
+      if (!user) return res.status(404).json({ message: "User not found" });
+  
+      user.fullName = name;
+      await user.save();
+  
+      res.status(200).json({ user });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Error updating profile" });
+    }
+});
+
+// Update user profile picture
+  router.put("/update-profile-pic", protect, upload.single("profilePic"), async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (req.file) {
+            user.profileImageUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+        }
+
+        await user.save();
+        res.status(200).json({ user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Error updating profile picture" });
     }
   });
 
