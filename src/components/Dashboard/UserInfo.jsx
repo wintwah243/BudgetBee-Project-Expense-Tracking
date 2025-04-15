@@ -121,105 +121,128 @@ const UserInfo = () => {
 
   return (
     <AuthLayout>
-      <div className="flex flex-col items-center mt-6 mb-10">
-        <div className="bg-white shadow-xl rounded-3xl p-8 w-[600px] max-w-md border border-yellow-100">
-          {/* Back to Dashboard Button */}
-          <button
-            onClick={handleGoBack}
-            className="flex items-center gap-2 text-sm text-gray-700 border rounded-full p-[10px] hover:text-yellow-500 mb-6 transition-colors duration-200"
-          >
-            <FiArrowLeft size={20} />
-            <span className="font-semibold">Back to Dashboard</span>
-          </button>
+      <div className="max-w-3xl w-full mx-auto mt-10 mb-20 px-4">
+        
+        <button
+          onClick={handleGoBack}
+          className="flex items-center gap-2 text-sm text-gray-700 border rounded-full p-[10px] hover:text-yellow-500 mb-6 transition-colors duration-200"
+        >
+          <FiArrowLeft size={18} />
+          <span className="font-medium">Back to Dashboard</span>
+        </button>
 
-          {/* Profile Pic */}
-          {editingProfilePic ? (
-            <form onSubmit={handleSubmitProfilePic} className="space-y-4">
-              <div className="flex flex-col gap-2">
-                <label htmlFor="profilePic" className="text-yellow-600 font-semibold">Upload New Picture:</label>
-                <input
-                  id="profilePic"
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setNewProfilePic(e.target.files[0])}
-                  className="border rounded-lg p-2"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-yellow-500 text-white py-2 rounded-lg hover:bg-yellow-600 transition"
-              >
-                Save Picture
-              </button>
-            </form>
-          ) : (
-            <div className="flex flex-col items-center gap-3 mb-6">
-              {user?.profileImageUrl ? (
-                <img
-                  src={user.profileImageUrl}
-                  alt="Profile"
-                  className="w-24 h-24 rounded-full object-cover ring-4 ring-yellow-200"
-                />
-              ) : (
-                <CharAvatar
-                  fullName={user.fullName}
-                  width="w-24"
-                  height="h-24"
-                  style="text-2xl"
-                />
-              )}
-              <button
-                onClick={() => setEditingProfilePic(true)}
-                className="text-yellow-500 text-sm flex items-center gap-1 hover:text-gray:700"
-              >
-                <FiEdit /> Edit Picture
-              </button>
+        {/* Profile Header */}
+        <div className="flex items-center justify-between mb-10">
+          <div className="flex items-center gap-4">
+            {user?.profileImageUrl ? (
+              <img
+                src={user.profileImageUrl}
+                alt="Profile"
+                className="w-20 h-20 rounded-full object-cover ring-4 ring-yellow-300"
+              />
+            ) : (
+              <CharAvatar
+                fullName={user.fullName}
+                width="w-20"
+                height="h-20"
+                style="text-xl"
+              />
+            )}
+            <div>
+              <h2 className="text-2xl font-bold text-gray-800">{user?.fullName || 'No Name'}</h2>
+              <p className="text-sm text-gray-500">Personal Info</p>
             </div>
-          )}
+          </div>
+          <button
+            onClick={() => setEditingProfilePic(true)}
+            className="bg-yellow-100 text-yellow-700 text-sm font-medium px-4 py-2 rounded-lg hover:bg-yellow-200 transition"
+          >
+            <FiEdit className="inline-block mr-2" />
+            Edit Picture
+          </button>
+        </div>
 
-          {/* Name */}
+        {editingProfilePic && (
+          <form onSubmit={handleSubmitProfilePic} className="mb-10 space-y-4">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setNewProfilePic(e.target.files[0])}
+              className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4
+                         file:rounded-full file:border-0
+                         file:text-sm file:font-semibold
+                         file:bg-yellow-50 file:text-yellow-700
+                         hover:file:bg-yellow-100"
+            />
+            <button
+              type="submit"
+              className="w-full bg-yellow-500 text-white py-2 rounded-lg hover:bg-yellow-600 transition"
+            >
+              Save Picture
+            </button>
+          </form>
+        )}
+
+        {/* User Name Section */}
+        <div className="mb-6">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="text-gray-700 font-semibold">Full Name</h3>
+            {!editingName && (
+              <button
+                onClick={() => setEditingName(true)}
+                className="text-sm text-yellow-600 hover:text-yellow-800 flex items-center"
+              >
+                <FiEdit className="mr-1" />
+                Edit
+              </button>
+            )}
+          </div>
+
           {editingName ? (
-            <form onSubmit={handleSubmitName} className="space-y-4">
-              <label htmlFor="name" className="text-yellow-600 font-semibold">Full Name:</label>
+            <form onSubmit={handleSubmitName} className="space-y-2">
               <input
-                id="name"
                 type="text"
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
-                className="w-full border rounded-lg p-2"
+                className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                 required
               />
               <button
                 type="submit"
-                className="w-full bg-yellow-500 text-white py-2 rounded-lg hover:bg-pink-600 transition"
+                className="bg-yellow-500 text-white py-2 w-full rounded-lg hover:bg-yellow-600 transition"
               >
                 Save Name
               </button>
             </form>
           ) : (
-            <div className="mb-6">
-              <div className="text-gray-600 font-semibold mb-1">Full Name:</div>
-              <div className="flex items-center justify-between gap-2">
-                <div className="text-lg text-gray-900 font-bold">{user?.fullName || 'No Name'}</div>
-                <button
-                  onClick={() => setEditingName(true)}
-                  className="text-yellow-500 text-sm flex items-center gap-1 hover:text-pink-600 transition-colors"
-                >
-                  <FiEdit size={16} /> Edit
-                </button>
-              </div>
+            <div className="w-full border border-gray-300 rounded-lg p-2 text-gray-800 text-base bg-white">
+              {user?.fullName || 'No Name'}
             </div>
           )}
+        </div>
 
-          {/* Email */}
-          <div>
-            <div className="text-gray-600 font-semibold">Email:</div>
-            <div className="text-gray-500 text-sm">{user?.email || 'No Email'}</div>
+        {/* Email Section */}
+        <div className="mb-6">
+          <h3 className="text-gray-700 font-semibold mb-1">Email</h3>
+          <div className="w-full border border-gray-300 rounded-lg p-2 text-gray-600 text-base bg-gray-50">
+            {user?.email || 'No Email'}
           </div>
         </div>
+        
+        {/* Cute Banner Section */}
+        <div className="mt-10 bg-yellow-50 border border-yellow-200 rounded-xl p-5 shadow-sm">
+          <h4 className="text-lg font-semibold text-yellow-700 mb-1">✨ Keep Going!</h4>
+          <p className="text-sm text-gray-700">
+            "Take control of your finances — track, save, and grow with confidence."
+          </p>
+        </div>
+
       </div>
     </AuthLayout>
   );
+
+
+
 };
 
 export default UserInfo;
