@@ -52,19 +52,22 @@ const Home = () => {
             icon={<IoMdCard />}
             label="Total Balance"
             value={addThousandsSeparator(dashboardData?.totalBalance || 0)}
-            color="bg-yellow-500"
+            color="bg-white"
+            bgColor="bg-yellow-400"
           />
           <InfoCard
             icon={<LuWalletMinimal />}
             label="Total Income"
             value={addThousandsSeparator(dashboardData?.totalIncome || 0)}
-            color="bg-green-500"
+            color="bg-white"
+            bgColor="bg-green-400"
           />
           <InfoCard
             icon={<LuHandCoins />}
             label="Total Expense"
             value={addThousandsSeparator(dashboardData?.totalExpense || 0)}
-            color="bg-pink-500"
+            color="bg-white"
+            bgColor="bg-orange-400"
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
