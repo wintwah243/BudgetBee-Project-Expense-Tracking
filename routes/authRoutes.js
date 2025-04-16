@@ -10,6 +10,7 @@ const {
 } = require("../controllers/authController");
 const upload = require("../middleware/uploadMiddleware");
 const User = require("../models/User");
+const passport = require("passport");
 
 const router = express.Router();
 const keysecret = process.env.JWT_SECRET;
@@ -185,6 +186,21 @@ router.put("/update-profile", protect, async (req, res) => {
         console.error(err);
         res.status(500).json({ message: "Error updating profile picture" });
     }
-  });
+});
+
+// Initial Google OAuth login
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+router.get("/google/callback", passport.authenticate("google", {
+    session: false, 
+}), (req, res) => {
+    const token = jwt.sign(
+        { id: req.user._id },
+        process.env.JWT_SECRET,
+        { expiresIn: "7d" }
+    );
+    // Redirect to frontend with token
+    res.redirect(`http://localhost:5173/google-auth?token=${token}`);
+});
+
 
 module.exports = router;
