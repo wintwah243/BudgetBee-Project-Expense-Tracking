@@ -47,7 +47,35 @@ const Login = () => {
             setError("Something went wrong. Please try again.")
           }
         }
-  }
+};
+// Handle token from Google login
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+  
+    if (token) {
+      localStorage.setItem("token", token);
+      
+      axiosInstance.get(API_PATHS.AUTH.GET_USER_INFO, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then((res) => {
+        console.log("OAuth user fetched:", res.data);
+        updateUser(res.data); 
+        navigate("/dashboard", { replace: true });
+      })
+      .catch((err) => {
+        console.error("Failed to fetch user:", err);
+        navigate("/login", { replace: true });
+      });
+    }
+  }, [navigate, updateUser]);
+
+  const loginWithGoogle = () => {
+    window.open("http://localhost:8000/api/v1/auth/google/callback", "_self");
+  };
 
   return (
     <AuthLayout>
@@ -83,9 +111,9 @@ const Login = () => {
                 Don't have an account?{" "}
                 <Link className='font-medium text-yellow-500 underline' to="/signup">Signup</Link>
              </p>
-
-
           </form>
+
+        <button className='google-btn' onClick={loginWithGoogle}>Sign in with Google</button>
       </div>
     </AuthLayout>
   )
