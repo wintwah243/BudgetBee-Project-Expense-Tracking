@@ -4,9 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
+
 @theme {
   --font-display: "Poppins", "sans-serif";
   --breakpoint-3xl: 1920px;
+  --color-primary: #875cf5;
 }
 
 @layer base{
@@ -41,4 +43,8 @@
 
 .add-btn-fill{
   @apply text-white bg-yellow-400;
+}
+
+.google-btn{
+  @apply w-full text-sm font-medium text-white bg-black shadow-lg shadow-yellow-600/5 p-[10px] rounded-md my-1 hover:bg-yellow-600/15 hover:text-yellow-600 items-center;
 }
